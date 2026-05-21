@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rule Based AI Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Correct Flask CSS link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <main class="app-container">
+
+        <section class="sidebar">
+            <div class="brand">
+                <div class="logo">AI</div>
+                <div>
+                    <h2>Rule Based</h2>
+                    <p>AI Assistant</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Project Overview</h3>
+                <p>
+                    A professional rule-based chatbot using predefined logic,
+                    input cleaning, pattern matching, and fallback responses.
+                </p>
+            </div>
+
+            <div class="quick-prompts">
+                <h3>Try asking</h3>
+                <button onclick="sendQuickMessage('hello')">Hello</button>
+                <button onclick="sendQuickMessage('what is ai')">What is AI?</button>
+                <button onclick="sendQuickMessage('what is github')">What is GitHub?</button>
+                <button onclick="sendQuickMessage('help')">Help</button>
+            </div>
+
+            <div class="status-card">
+                <span class="status-dot"></span>
+                Assistant Online
+            </div>
+        </section>
+
+        <section class="chat-panel">
+            <header class="chat-header">
+                <div>
+                    <h1>Rule Based AI Assistant</h1>
+                    <p>Internship Project 1 | Python + Flask Chatbot</p>
+                </div>
+                <span class="badge">Rule-Based AI</span>
+            </header>
+
+            <div id="chatBox" class="chat-box">
+                <div class="message assistant-message">
+                    <div class="avatar bot-avatar">🤖</div>
+                    <div class="bubble">
+                        Hello! I am your Rule Based AI Assistant. Ask me about AI, Python, Git, GitHub, VS Code, or type <b>help</b>.
+                    </div>
+                </div>
+            </div>
+
+            <form id="chatForm" class="chat-form">
+                <input
+                    id="userInput"
+                    type="text"
+                    placeholder="Type your message here..."
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit">Send</button>
+            </form>
+        </section>
+
+    </main>
+
+    <script>
+        const chatForm = document.getElementById("chatForm");
+        const userInput = document.getElementById("userInput");
+        const chatBox = document.getElementById("chatBox");
+
+        function addMessage(text, type) {
+            const wrapper = document.createElement("div");
+            wrapper.className = `message ${type}-message`;
+
+            const avatar = document.createElement("div");
+            avatar.className = type === "user" ? "avatar user-avatar" : "avatar bot-avatar";
+            avatar.textContent = type === "user" ? "👤" : "🤖";
+
+            const bubble = document.createElement("div");
+            bubble.className = "bubble";
+            bubble.textContent = text;
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(bubble);
+            chatBox.appendChild(wrapper);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const typing = document.createElement("div");
+            typing.className = "message assistant-message";
+            typing.id = "typingIndicator";
+
+            typing.innerHTML = `
+                <div class="avatar bot-avatar">🤖</div>
+                <div class="bubble typing">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+
+            chatBox.appendChild(typing);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typing = document.getElementById("typingIndicator");
+            if (typing) {
+                typing.remove();
+            }
+        }
+
+        async function sendMessage(message) {
+            addMessage(message, "user");
+            addTypingIndicator();
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    addMessage(data.reply, "assistant");
+                }, 500);
+
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage("Server error. Please check Flask is running correctly.", "assistant");
+            }
+        }
+
+        function sendQuickMessage(message) {
+            sendMessage(message);
+        }
+
+        chatForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const message = userInput.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            userInput.value = "";
+            sendMessage(message);
+        });
+    </script>
+
+</body>
+</html>
