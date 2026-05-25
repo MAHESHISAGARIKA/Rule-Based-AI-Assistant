@@ -1,5 +1,5 @@
 """
-Core assistant logic for the Rule Based AI Assistant.
+Core assistant logic for Rule Based AI Assistant.
 """
 
 import re
@@ -9,7 +9,17 @@ from .knowledge_base import EXIT_COMMANDS, FALLBACK_RESPONSE, KNOWLEDGE_BASE
 
 
 class RuleBasedAIAssistant:
-    """A professional rule-based AI assistant."""
+    """
+    Professional rule-based chatbot.
+
+    Matching methods:
+    1. Clean user input
+    2. Check exit command
+    3. Exact pattern matching
+    4. Partial pattern matching
+    5. Fuzzy spelling correction
+    6. Fallback response
+    """
 
     def __init__(self):
         self.knowledge_base = KNOWLEDGE_BASE
@@ -18,15 +28,18 @@ class RuleBasedAIAssistant:
         self.pattern_to_response = self._build_pattern_lookup()
 
     def _build_pattern_lookup(self):
-        """Convert knowledge base patterns into a direct lookup dictionary."""
+        """
+        Build a dictionary:
+        pattern -> response
+        """
         lookup = {}
 
         for intent_data in self.knowledge_base.values():
             response = intent_data["response"]
 
             for pattern in intent_data["patterns"]:
-                normalized_pattern = self.sanitize_input(pattern)
-                lookup[normalized_pattern] = response
+                cleaned_pattern = self.sanitize_input(pattern)
+                lookup[cleaned_pattern] = response
 
         return lookup
 
@@ -36,57 +49,56 @@ class RuleBasedAIAssistant:
         Clean user input.
 
         Example:
-        '  HELLO!!! ' becomes 'hello'
+        '  WHAT is AI??? ' -> 'what is ai'
         """
         if not isinstance(user_input, str):
             return ""
 
         cleaned = user_input.lower().strip()
-        cleaned = re.sub(r"[^a-z0-9\s]", "", cleaned)
+        cleaned = re.sub(r"[^a-z0-9\s.]", "", cleaned)
         cleaned = re.sub(r"\s+", " ", cleaned)
 
         return cleaned
 
     def is_exit_command(self, user_input):
-        """Check whether the user wants to stop the assistant."""
+        """
+        Check whether the input is an exit command.
+        """
         cleaned_input = self.sanitize_input(user_input)
         return cleaned_input in self.exit_commands
 
     def get_response(self, user_input):
         """
-        Return assistant response based on user input.
-
-        Matching order:
-        1. Empty input check
-        2. Exit command check
-        3. Exact dictionary lookup
-        4. Partial keyword matching
-        5. Close spelling match
-        6. Fallback response
+        Generate chatbot response.
         """
         cleaned_input = self.sanitize_input(user_input)
 
         if not cleaned_input:
             return "Please type a message."
 
-        if cleaned_input in self.exit_commands:
+        if self.is_exit_command(cleaned_input):
             return "Goodbye! Have a great day."
 
+        # 1. Exact match
         if cleaned_input in self.pattern_to_response:
             return self.pattern_to_response[cleaned_input]
 
+        # 2. Partial match
         for pattern, response in self.pattern_to_response.items():
             if pattern in cleaned_input or cleaned_input in pattern:
                 return response
 
+        # 3. Fuzzy match for small spelling mistakes
         close_matches = get_close_matches(
             cleaned_input,
             self.pattern_to_response.keys(),
             n=1,
-            cutoff=0.72,
+            cutoff=0.72
         )
 
         if close_matches:
-            return self.pattern_to_response[close_matches[0]]
+            best_match = close_matches[0]
+            return self.pattern_to_response[best_match]
 
+        # 4. Fallback response
         return self.fallback_response
