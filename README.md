@@ -16,33 +16,33 @@ If the assistant does not understand the user input, it provides a fallback resp
 
 ## Features
 
-- Rule-based chatbot response system
-- Predefined knowledge base
-- Input sanitization
-- Greeting command handling
-- Exit command handling
-- Fallback response for unknown inputs
-- Dictionary-based pattern matching
-- Fuzzy matching for small spelling mistakes
-- Command-line interface
-- Professional web interface
-- Flask backend server
-- Unit testing using pytest
-- Clean and organized project structure
+* Rule-based chatbot response system
+* Predefined knowledge base
+* Input sanitization
+* Greeting command handling
+* Exit command handling
+* Fallback response for unknown inputs
+* Dictionary-based pattern matching
+* Fuzzy matching for small spelling mistakes
+* Command-line interface
+* Professional web interface
+* Flask backend server
+* Unit testing using pytest
+* Clean and organized project structure
 
 ---
 
 ## Technologies Used
 
-- Python
-- Flask
-- HTML
-- CSS
-- JavaScript
-- Pytest
-- Git
-- GitHub
-- VS Code
+* Python
+* Flask
+* HTML
+* CSS
+* JavaScript
+* Pytest
+* Git
+* GitHub
+* VS Code
 
 ---
 
@@ -70,3 +70,39 @@ Rule-Based-AI-Assistant/
 ├── web_app.py
 ├── requirements.txt
 └── README.md
+```
+
+---
+
+## How to Run
+
+Clone the repository, install dependencies, and run the Rule Based AI Assistant.
+
+```bash
+git clone https://github.com/MAHESHISAGARIKA/Rule-Based-AI-Assistant.git
+cd Rule-Based-AI-Assistant
+
+python -m venv venv
+venv\Scripts\activate
+
+pip install -r requirements.txt
+python web_app.py
+```
+
+Open the application in the browser:
+
+```text
+http://127.0.0.1:5000
+```
+
+To run the command-line version:
+
+```bash
+python cli.py
+```
+
+To run tests:
+
+```bash
+pytest
+```
