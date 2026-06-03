@@ -58,7 +58,7 @@ Rule-Based-AI-Assistant/
 │       └── knowledge_base.py
 │
 ├── static/
-│   └── styles.css
+│   └── style.css
 │
 ├── templates/
 │   └── index.html

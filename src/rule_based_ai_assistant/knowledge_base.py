@@ -36,41 +36,6 @@ KNOWLEDGE_BASE = {
         "response": "I was developed as an internship project to demonstrate rule-based AI logic."
     },
 
-    "project_explanation": {
-        "patterns": [
-            "what is this project", "explain this project", "project idea",
-            "about this project", "tell me about project"
-        ],
-        "response": (
-            "This project is called Rule Based AI Assistant. It responds to user messages "
-            "using predefined rules, input cleaning, pattern matching, fallback responses, "
-            "and exit commands."
-        )
-    },
-
-    "project_features": {
-        "patterns": [
-            "features", "project features", "what are the features",
-            "features of this chatbot", "what can this project do"
-        ],
-        "response": (
-            "Main features include greeting handling, predefined question answering, "
-            "input sanitization, dictionary-based matching, fallback response, exit command, "
-            "CLI interface, and Flask web interface."
-        )
-    },
-
-    "project_goal": {
-        "patterns": [
-            "project goal", "goal of this project", "aim of this project",
-            "purpose of this project"
-        ],
-        "response": (
-            "The goal of this project is to understand basic AI logic using control flow, "
-            "decision-making, loops, and rule-based response generation."
-        )
-    },
-
     "what_can_you_do": {
         "patterns": [
             "what can you do", "help", "commands", "show commands",
@@ -78,8 +43,8 @@ KNOWLEDGE_BASE = {
         ],
         "response": (
             "I can answer questions about AI, rule-based chatbots, Python, Git, GitHub, "
-            "VS Code, Flask, web development, and this internship project. Try asking: "
-            "'what is ai', 'what is python', 'what is github', or 'project features'."
+            "VS Code, Flask, web development. Try asking: "
+            "'what is ai', 'what is python', 'what is github'."
         )
     },
 
