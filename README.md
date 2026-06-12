@@ -79,7 +79,7 @@ Rule-Based-AI-Assistant/
 Clone the repository, install dependencies, and run the Rule Based AI Assistant.
 
 ```bash
-git clone https://github.com/MAHESHISAGARIKA/Task-1-MaheshiRajapaksha.git
+git clone https://github.com/MAHESHISAGARIKA/Rule_Based_AI_Assistant.git
 cd Rule-Based-AI-Assistant
 
 python -m venv venv
